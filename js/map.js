@@ -1,11 +1,12 @@
 // initialize global variables
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvZzM3MWZpbmFsIiwiYSI6ImNqMGcwMHJ1MjAxejcycXFsbjh3ODV1anAifQ.elLqkIBh8HH_9SJX9wjBrw';
 var zoomThreshold = 4;
+var selectedLayer;
 
 // initialize map object
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/geog371final/cj0i3bii8004p2sqgso8xnsqw?optimize=true',
+    style: 'mapbox://styles/geog371final/cj0i5q36i00592rlb3bbv8s23?optimize=true',
     zoom: 3.5,
     center: [-98, 38],
     minZoom: 3,
@@ -57,7 +58,7 @@ map.on('load', function() {
         'source-layer': 'statesDataF-6rqrzf',
         'maxzoom': zoomThreshold,
         'type': 'fill',
-        'paint': RedToTeal,
+        'paint': {'fill-opacity': 0.1}
     }, 'barrier_line-land-line');
     
     // add counties layer to map
@@ -67,7 +68,7 @@ map.on('load', function() {
         'source-layer': 'countiesF-55xz2i',
         'minzoom': zoomThreshold,
         'type': 'fill',
-        'paint': RedToTeal
+        'paint': {'fill-opacity': 0.1}
     }, 'barrier_line-land-line');
     
     // on map click
@@ -87,13 +88,14 @@ map.on('load', function() {
             // unique feture for counties based on GEOID
             var renderedFeatures = getUniqueFeatures(features, "GEOID10");
             
-            // data arrays for charts
-            var renWhitePovHistData = [["white", "impoverished"]];            
+            // initialize data arrays for charts
+            var renWhitePovHistData = [["white", "impoverished"]];           
             var renRacePieChartData = [["Race"  , "Population"],
                                       ["White" , 0],
                                       ["Black" , 0],
                                       ["Latino", 0],
                                       ["Asian" , 0]];
+            
             // fill chart data arrays
             for (var i=0; i < renderedFeatures.length; i++) {
                 var pctWhite = renderedFeatures[i].properties.pctWhite;
@@ -126,40 +128,84 @@ map.on('load', function() {
     });
 });
 
-// set layer fill style based on selection
-function setLayerFillColor(lyr, query) {
-    if (query == 'blueOrange') {
-        if (lyr == 'states') {
-            return '#4286f4';
+// Set layer style options
+var lyrStyleOptions = {
+    'mInc': {
+        'name': 'Mean Income',
+        'colorRamp': RedToTeal["fill-color"],
+        'propertyName': 'mIncSTDV',
+        'legendRamp': {
+            'a': adjRtL[0],
+            'b': adjRtL[1],
+            'c': adjRtL[2],
+            'd': adjRtL[3],
+            'e': 'lightyellow',
+            'f': adjLtT[1],
+            'g': adjLtT[2],
+            'h': adjLtT[3],
+            'i': adjLtT[4]
         }
-        if (lyr == 'counties') {
-            return '#f47d42';
-        }
-    }
-    
-    if (query == 'orangeBlue') {
-        if (lyr == 'states') {
-            return '#f47d42';
-        }
-        if (lyr == 'counties') {
-            return '#4286f4';
+    },
+    'pctDegree': {
+        'name': 'Percent w/ Adv. Degree',
+        'colorRamp': CrimsonToIndigo["fill-color"],
+        'propertyName': 'pctDeSTDV',
+        'legendRamp': {
+            'a': adjCtL[0],
+            'b': adjCtL[1],
+            'c': adjCtL[2],
+            'd': adjCtL[3],
+            'e': 'lightyellow',
+            'f': adjLtI[1],
+            'g': adjLtI[2],
+            'h': adjLtI[3],
+            'i': adjLtI[4]
         }
     }
 }
 
-// get layer selection
-var lyrSelect = document.getElementById('layerSelect');
-
-/*
-// set layer color when there is a new selection
-lyrSelect.addEventListener("click", function() {
-   var lyrChoice = lyrSelect.value;
-    console.log(lyrChoice);
+// Update Legend
+function fillLegend(lyr) {    
+    // title
+    document.getElementById('leg-title').innerHTML = lyr.name;
     
-    map.setPaintProperty('counties-layer', 'fill-color', setLayerFillColor('counties', lyrChoice));
-    map.setPaintProperty('states-layer', 'fill-color', setLayerFillColor('states', lyrChoice));
-});
-*/
+    // legend gradient
+    var cssBkgrnd =  "linear-gradient(to right,";
+    var concatCSS = cssBkgrnd.concat(
+        lyr['legendRamp'].a, ",",
+        lyr['legendRamp'].b, ",",
+        lyr['legendRamp'].c, ",",
+        lyr['legendRamp'].d, ",",
+        lyr['legendRamp'].e, ",",
+        lyr['legendRamp'].f, ",",
+        lyr['legendRamp'].g, ",",
+        lyr['legendRamp'].h, ",",
+        lyr['legendRamp'].i, ")"
+    );
+    console.log(concatCSS);
+    document.getElementById('leg-gradient').style.background = concatCSS;
+}
+
+// Colors and displays the selected layer
+function setSelectedLayer(lyrId) {
+    selectedLayer = lyrId;
+    
+    //get layer style options
+    var lyr = lyrStyleOptions[selectedLayer];
+    
+    //set opacity
+    map.setPaintProperty('states-layer', 'fill-opacity', 0.7);
+    map.setPaintProperty('counties-layer', 'fill-opacity', 0.7);   
+    
+    // set layer fill style
+    lyr['colorRamp'].property = lyr.propertyName;
+    var fillColor = lyr['colorRamp'];
+    map.setPaintProperty('states-layer', 'fill-color', fillColor);
+    map.setPaintProperty('counties-layer', 'fill-color', fillColor);
+
+    // fill legend contents
+    fillLegend(lyr);
+};
 
 
 

@@ -18,6 +18,16 @@ body {
     background-color: #bbb;
 }
 
+.sidebar h2 {
+    margin: 5px 0 5px 0;
+}
+
+button {
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+}
+
 .map-container {
     margin-left: 300px;
     width: calc(100% - 300px);
@@ -47,6 +57,27 @@ h1, h2, h3, h4 {
     display: inline;
     vertical-align: middle;
     line-height: 50px;
+}
+
+.legend {
+    background-color: #fff;
+    border-radius: 3px;
+    top: 60px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    position: absolute;
+    right: 10px;
+    z-index: 1000;
+}
+
+.legend h4 {
+    margin: 0 0 10px;
+}
+
+.legend div span {
+    display: inline-block;
+    height: 25px;
+    width: 150px;
 }
 
 @media only screen and (max-width: 600px) {
