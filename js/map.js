@@ -12,9 +12,32 @@ var map = new mapboxgl.Map({
 
 // global variables
 var zoomThreshold = 4;
+var countiesFeatures;
+var countyWhitePovHistData = [["white","impov"]];
+var countyRacePieChartData = [["Race","Population"],
+                              ["White", 0],
+                              ["Black", 0],
+                              ["Latino", 0],
+                              ["Asian", 0]];
 
 // add navigation control
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+
+// check to see if rendered features are duplicated, only return unique features
+function getUniqueFeatures(array, comparatorProperty) {
+    var existingFeatureKeys = {};
+
+    var uniqueFeatures = array.filter(function(el) {
+        if (existingFeatureKeys[el.properties[comparatorProperty]]) {
+            return false;
+        } else {
+            existingFeatureKeys[el.properties[comparatorProperty]] = true;
+            return true;
+        }
+    });
+    
+    return uniqueFeatures;
+}
 
 map.on('load', function() {
     // get vector tileset sources
@@ -54,7 +77,57 @@ map.on('load', function() {
             'fill-opacity': 0.6,
             'fill-outline-color': '#eee'
         }
-    }, 'barrier_line-land-line')
+    }, 'barrier_line-land-line');
+    
+    // get features from map
+    map.on('moveend', function() {
+        var features = map.queryRenderedFeatures({layers:['counties-layer']});
+
+        if (features) {
+            var uniqueFeatures = getUniqueFeatures(features, "GEOID");
+            // Store the current features statesFeatures variable
+            countiesFeatures = uniqueFeatures;
+            
+            countyWhitePovHistData = [["white", "impov"]];
+            
+            countyRacePieChartData = [["Race"  , "Population"],
+                                      ["White" , 0],
+                                      ["Black" , 0],
+                                      ["Latino", 0],
+                                      ["Asian" , 0]];
+            
+            for (var i=0; i < countiesFeatures.length; i++) {
+                var pctWhite = countiesFeatures[i].properties.pctWhite;
+                var pctAsian = countiesFeatures[i].properties.pctAsian;
+                var pctLatino = countiesFeatures[i].properties.pctLatino;
+                var pctBlack = countiesFeatures[i].properties.pctBlack;
+                var pctPoverty = countiesFeatures[i].properties.pctPoverty;
+                var popTotal = countiesFeatures[i].properties.popTotal;
+                
+                if(!isNaN((pctWhite/100)  * popTotal)) {
+                    countyRacePieChartData[1][1] += ((pctWhite/100)  * popTotal);
+                }
+                if(!isNaN((pctBlack/100)  * popTotal)) {
+                    countyRacePieChartData[2][1] += ((pctBlack/100)  * popTotal);
+                }
+                if(!isNaN((pctLatino/100)  * popTotal)) {
+                    countyRacePieChartData[3][1] += ((pctLatino/100) * popTotal);
+                }
+                if(!isNaN((pctAsian/100)  * popTotal)) {
+                    countyRacePieChartData[4][1] += ((pctAsian/100)  * popTotal);
+                }
+                
+                countyWhitePovHistData.push([pctWhite, pctPoverty]);
+            }
+            
+            //console.log(countyWhitePovHistData);
+            console.table(countyRacePieChartData);
+            console.log(countiesFeatures);
+            
+            drawHistogram(countyWhitePovHistData);
+            drawPieChart(countyRacePieChartData);
+        }
+    });
 });
 
 // return layer color based on selection
@@ -67,10 +140,11 @@ function setLayerFillColor(lyr, query) {
             return '#f47d42';
         }
     }
+    
     if (query == 'orangeBlue') {
         if (lyr == 'states') {
             return '#f47d42';
-        }
+        } 
         if (lyr == 'counties') {
             return '#4286f4';
         }
@@ -89,11 +163,23 @@ lyrSelect.addEventListener("click", function() {
     map.setPaintProperty('states-layer', 'fill-color', setLayerFillColor('states', lyrChoice));
 });
 
+// get unique features only
+function getUniqueFeatures(array, comparatorProperty) {
+    var existingFeatureKeys = {};
+    // Because features come from tiled vector data, feature geometries may be split
+    // or duplicated across tile boundaries and, as a result, features may appear
+    // multiple times in query results.
+    var uniqueFeatures = array.filter(function(el) {
+        if (existingFeatureKeys[el.properties[comparatorProperty]]) {
+            return false;
+        } else {
+            existingFeatureKeys[el.properties[comparatorProperty]] = true;
+            return true;
+        }
+    });
 
-
-
-
-
+    return uniqueFeatures;
+}
 
 
 
