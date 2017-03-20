@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Divergent America</title>
+    <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.33.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.33.1/mapbox-gl.css' rel='stylesheet' />
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab:700" rel="stylesheet">
+    <link href='css/style.css' rel='stylesheet' />
+</head>
+<body>
+    <div class='header'>
+        <h1>Divergent America</h1>
+        <h4>Noel Vineyard &amp; Connor Daliposon</h4>
+    </div>
+
+    <div class='sidebar'>
+        <form>
+            <fieldset>
+                <label>Select layer</label>
+                <select id='layer' name='layer'>
+                    <option value='pcBlack'>&#37; Black</option>
+                    <option value='pcImpov'>&#37; Impoverished</option>
+                </select>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class='map-container'>
+        <div id='map'></div>
+    </div>
+    
+    <script src="js/map.js"></script>
+</body>
+</html>
