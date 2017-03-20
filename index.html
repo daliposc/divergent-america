@@ -3,6 +3,7 @@
 <head>
     <meta charset='utf-8' />
     <title>Divergent America</title>
+    <link href="assets/favicon.ico" rel="icon" type="image/x-icon" />
     <meta name='viewport' content='width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no' /> 
     <!-- Mapbox GL JS -->
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.33.1/mapbox-gl.js'></script>
@@ -22,17 +23,6 @@
     </div>
 
     <div class='sidebar'>
-        <!--        
-        <form>
-            <fieldset>
-                <label>Layer Style</label>
-                <select id='layerSelect' name='layer'>
-                    <option value='blueOrange'>Blue to Orange</option>
-                    <option value='orangeBlue'>Orange to Blue</option>
-                </select>
-            </fieldset>
-        </form>
-        -->
         <h2 style='text-align: center'>Socio-Economic Data</h2>
         <button id='mInc' type='button' onclick='setSelectedLayer("mInc")'>Mean Income</button>
         <button id='pctDegree' type='button' onclick='setSelectedLayer("pctDegree")'>Percent w/ Adv. Degree</button>
@@ -45,8 +35,20 @@
         <button id='pctLatino' type='button' onclick='setSelectedLayer("pctLatino")'>Percent Latino</button>
         <button id='pctWhite' type='button' onclick='setSelectedLayer("pctWhite")'>Percent White</button>
         
-        <div id='scatterplot' style ='width:300px; height: 200px;'></div>
-        <div id='piechart' style ='width:300px; height: 200px;'></div>
+        <hr align='center' width='70%'>
+        
+        <div class='chart-container'>
+            <div id='demographic-charts'>
+                <h3>Charts of Features in View</h3>
+                <div id='scatterplot' class='chart'></div>
+                <div id='piechart' class='chart'></div>
+            </div>
+            <div id='socioecon-charts'>
+                <h3>Charts of Features in View</h3>
+                <div id='scatterplot3' class='chart'></div>
+                <div id='scatterplot2' class='chart'></div>
+            </div>
+        </div>
         
     </div>
         
@@ -55,8 +57,8 @@
     </div>
     
     <div id='legend' class='legend'>
-        <h4 id='leg-title'></h4>
-        <div><span id='leg-gradient' style='background: linear-gradient(to right, black , black)'></span></div>
+        <h4 id='leg-title'>Select a layer to view data...</h4>
+        <div><span id='leg-gradient'></span></div>
     </div>
     
     <script src='js/symbology.js'></script>
