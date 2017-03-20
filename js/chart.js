@@ -1,8 +1,7 @@
 // draw histogram in sidebar
-
 google.charts.load('current', {'packages':['corechart']});
 
-function drawHistogram(dataArr) {
+function drawScatterplot(dataArr) {
     var data = google.visualization.arrayToDataTable(dataArr);
     
     var options = {
@@ -12,9 +11,9 @@ function drawHistogram(dataArr) {
         legend: 'none'
     }
     
-    var histogram = new google.visualization.ScatterChart(document.getElementById('histogram'));
+    var scatterplot = new google.visualization.ScatterChart(document.getElementById('scatterplot'));
     
-    histogram.draw(data, options);    
+    scatterplot.draw(data, options);    
 }
 
 function drawPieChart(dataArr) {
