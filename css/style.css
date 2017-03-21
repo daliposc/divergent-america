@@ -5,6 +5,11 @@ body {
     font-family: 'Roboto', 'Helvetica', sans-serif;
 }
 
+p {
+    font-size: 10pt;
+    text-align: center;
+}
+
 h1, h2, h3, h4 {
     font-family: 'Roboto Slab', 'Garamond', serif;
     color: #222;
@@ -109,15 +114,80 @@ hr {
     margin: 0 0 10px;
 }
 
-.legend div span {
-    display: inline-block;
+#leg-gradient {
+    display: block;
     height: 25px;
     width: 250px;
     opacity: 0.8;
     border-width: 0 1px 1px 1px;
     border-color: #222;
     border-style: solid;
+    float: right;
 }
+
+.leg-labels {
+    width: 350px;
+    height: 20px;
+    line-height: 20px;
+    font-family: monospace;
+    font-size: 11px;
+}
+
+.leg-labels .varname {
+    position: absolute;
+    left: 22px;
+    width: 52px;
+    text-align: right;
+    bottom: 32px;
+    font-style: oblique;
+}
+
+#q1,#q2,#q3,#q4,#q5 {
+    position: absolute;
+    width: 50px;
+    text-align:left;
+    border-left: 1px solid #222;
+    padding-left: 2px;
+    bottom: 32px;
+    padding-top:15px;
+}
+
+#q1 {left: 98px;}
+#q2 {left: 160px;}
+#q3 {left: 224px;}
+#q4 {left: 284px;}
+#q5 {left: 349px;}
+
+.leg-diverge {
+    width: 380px;
+    height: 20px;
+    line-height: 20px;
+    font-family: monospace;
+    font-size: 11px;
+    bottom: 13px;
+}
+
+.leg-diverge .varname {
+    position: absolute;
+    left: 10px;
+    width: 57px;
+    text-align: right;
+    bottom: 13px;
+    font-style: oblique;
+}
+
+#neg2, #neg1, #avg, #pos1, #pos2 {
+    position: absolute;
+    width: 60px;
+    text-align:center;
+    bottom: 13px;
+}
+
+#neg2 {left: 68px;}
+#neg1 {left: 128px;}
+#avg {left: 194px;}
+#pos1 {left: 257px;}
+#pos2 {left: 318px;}
 
 @media only screen and (max-width: 600px) {
     .sidebar {

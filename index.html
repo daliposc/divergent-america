@@ -39,17 +39,19 @@
         
         <div class='chart-container'>
             <div id='demographic-charts'>
-                <h3>Charts of Features in View</h3>
+                <h3>Live Stats from Map View</h3>
+                <p>There are <b><span class="popstat"></span></b> people in your view.</p>
+                
                 <div id='scatterplot' class='chart'></div>
                 <div id='piechart' class='chart'></div>
             </div>
             <div id='socioecon-charts'>
-                <h3>Charts of Features in View</h3>
+                <h3>Live Stats from Map View</h3>
+                <p>There are <b><span class="popstat"></span></b> poeple in your view.</p>
                 <div id='scatterplot3' class='chart'></div>
                 <div id='scatterplot2' class='chart'></div>
             </div>
-        </div>
-        
+        </div>        
     </div>
         
     <div class='map-container'>
@@ -58,7 +60,23 @@
     
     <div id='legend' class='legend'>
         <h4 id='leg-title'>Select a layer to view data...</h4>
-        <div><span id='leg-gradient'></span></div>
+        <div style="width: 340px; height: 25px"><span id='leg-gradient'></span></div>
+        <div class='leg-labels'>
+            <span class='varname'>value</span>
+            <span id='q1'></span>
+            <span id='q2'></span>
+            <span id='q3'></span>
+            <span id='q4'></span>
+            <span id='q5'></span>
+        </div>
+        <div class='leg-diverge'>
+            <span class='varname'>divergence</span>
+            <span id='neg2'></span>
+            <span id='neg1'></span>
+            <span id='avg'></span>
+            <span id='pos1'></span>
+            <span id='pos2'></span>
+        </div>
     </div>
     
     <script src='js/symbology.js'></script>

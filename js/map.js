@@ -1,15 +1,20 @@
 // initialize global variables
 mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvZzM3MWZpbmFsIiwiYSI6ImNqMGcwMHJ1MjAxejcycXFsbjh3ODV1anAifQ.elLqkIBh8HH_9SJX9wjBrw';
 var zoomThreshold = 4;
-var selectedLayer;
+var selectedLayer = 'nope';
+var isCountiesLayer = false;
 
 // Set layer style options
 var lyrStyleOptions = {
     'mInc': {
-        'name': 'Mean Income',
+        'name': 'Mean Income (Per Household, USD)',
         'colorRamp': RedToTeal["fill-color"],
         'propertyName': 'mIncSTDV',
         'category': 'se',
+        'legendLabels': {
+            'county': [30086, 51085, 60577, 66368, 152424],
+            'state':  [30463, 64276, 72901, 80616, 107594]   
+        },
         'legendRamp': {
             'a': adjRtL[0],
             'b': adjRtL[1],
@@ -19,7 +24,7 @@ var lyrStyleOptions = {
             'f': adjLtT[1],
             'g': adjLtT[2],
             'h': adjLtT[3],
-            'i': adjLtT[4]
+            'i': adjLtT[4] 
         }
     },
     'pctDegree': {
@@ -52,6 +57,32 @@ var map = new mapboxgl.Map({
 });
 // add navigation control
 map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+
+//add legend labels
+ function addLegendLabels(geo) {
+    // update legend items
+    var quant = ['q1','q2','q3','q4','q5'];
+    var diverge = ['neg2','neg1','avg','pos1','pos2'];
+
+    var lyr = lyrStyleOptions[selectedLayer];
+    var quantNum = [];
+
+    // add value labels
+    for (var i = 0; i < 5; i++) {
+        var val = lyr.legendLabels[geo][i];
+        quantNum.push(val);
+        document.getElementById(quant[i]).innerHTML = val;
+    }
+    // add divergence labels
+    for (var i = 0; i < 5; i++) {
+        var val = lyr.legendLabels[geo][i] - quantNum[2];
+        if (i != 2) {
+            document.getElementById(diverge[i]).innerHTML = val;
+        } else {
+            document.getElementById(diverge[i]).innerHTML = 'avg';
+        }
+    }    
+}
 
 /* 
 Mapload Function:
@@ -120,6 +151,17 @@ map.on('load', function() {
     
     // On map moveend: Get data and render charts
     map.on('moveend', function() {
+        //get zoom, change label if need be
+        var zL = map.getZoom();
+        if (zL > zoomThreshold && !(isCountiesLayer) && selectedLayer != 'nope') {
+            addLegendLabels('county');
+            isCountiesLayer = true;
+        } else if ((zL < zoomThreshold || isCountiesLayer) && selectedLayer != 'nope') {
+            addLegendLabels('state');
+            isCountiesLayer = false;
+        }
+        
+        /* Data for charts! */
         // Array of all rendered features in viewport
         var features = map.queryRenderedFeatures({layers:['states-layer','counties-layer']});
 
@@ -137,7 +179,8 @@ map.on('load', function() {
                                        ["Black" , 0],
                                        ["Latino", 0],
                                        ["Asian" , 0]];
-
+            var viewportPopulation = 0;
+            
             // fill chart data arrays
             for (var i=0; i < renderedFeatures.length; i++) {
                 var pctWhite = renderedFeatures[i].properties.pctWhite;
@@ -154,23 +197,25 @@ map.on('load', function() {
                 var nAvgAsian = 5.1;
                 var nAvgLatino = 17.1;
                 
-                if(!isNaN((pctWhite/100)  * popTotal)) {
-                    renRacePieChartData[1][1] += ((pctWhite/100)  * popTotal);
-                }
-                if(!isNaN((pctBlack/100)  * popTotal)) {
-                    renRacePieChartData[2][1] += ((pctBlack/100)  * popTotal);
-                }
-                if(!isNaN((pctLatino/100)  * popTotal)) {
-                    renRacePieChartData[3][1] += ((pctLatino/100) * popTotal);
-                }
-                if(!isNaN((pctAsian/100)  * popTotal)) {
-                    renRacePieChartData[4][1] += ((pctAsian/100)  * popTotal);
-                }
+                viewportPopulation += popTotal;
+                
+                renRacePieChartData[1][1] += ((pctWhite/100)  * popTotal);
+                renRacePieChartData[2][1] += ((pctBlack/100)  * popTotal);
+                renRacePieChartData[3][1] += ((pctLatino/100) * popTotal);
+                renRacePieChartData[4][1] += ((pctAsian/100)  * popTotal);
                 
                 renWhitePovHistData.push([pctWhite, pctPoverty]);
                 renIncomeUninsuredData.push([meanIncome, pctUninsur]);
-                renIncomeDegreeData.push([meanIncome, pctDegree])
+                renIncomeDegreeData.push([meanIncome, pctDegree]);
             }
+            
+            //update viefreame population stat
+            var popStatSpans = document.getElementsByClassName('popstat');
+            
+            var viewPop = viewportPopulation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            
+            popStatSpans[0].innerHTML = viewPop;
+            popStatSpans[1].innerHTML = viewPop;            
             
             // draw the charts
             if (lyrStyleOptions[selectedLayer]) {
@@ -184,7 +229,6 @@ map.on('load', function() {
                 }
                 // socioecon charts
                 if (lyr.category == 'se') {
-                    console.log(lyr);
                     document.getElementById('demographic-charts').style.display = "none";
                     document.getElementById('socioecon-charts').style.display = "block";
                     drawScatterplot2(renIncomeUninsuredData);
@@ -195,8 +239,9 @@ map.on('load', function() {
     });
 });
 
-// Update Legend
-function fillLegend(lyr) {    
+
+// Update Legend color ramps
+function fillLegend(lyr) {
     // title
     document.getElementById('leg-title').innerHTML = lyr.name;
     
@@ -215,6 +260,14 @@ function fillLegend(lyr) {
     );
     console.log(concatCSS);
     document.getElementById('leg-gradient').style.background = concatCSS;
+    
+    if (map.getZoom() > zoomThreshold) {
+        addLegendLabels('county');
+        isCountiesLayer = true;
+    } else {
+        addLegendLabels('state');
+        isCountiesLayer = false;
+    }
 }
 
 // Colors and displays the selected layer
