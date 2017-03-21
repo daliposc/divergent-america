@@ -24,12 +24,13 @@
 
     <div class='sidebar'>
         <h2 style='text-align: center'>Socio-Economic Data</h2>
-        <button id='mInc' type='button' onclick='setSelectedLayer("mInc")'>Mean Income</button>
+        <button id='meanIncome' type='button' onclick='setSelectedLayer("meanIncome")'>Mean Income</button>
         <button id='pctDegree' type='button' onclick='setSelectedLayer("pctDegree")'>Percent w/ Adv. Degree</button>
         <button id='pctUninsur' type='button' onclick='setSelectedLayer("pctUninsur")'>Percent Uninsured</button>
+        <button id='pctPoverty' type='button' onclick='setSelectedLayer("pctPoverty")'>Percent Impoverished</button>
         
         <h2 style='text-align: center'>Demographic Data</h2>
-        <button id='popTot' type='button' onclick='setSelectedLayer("popTot")'>Total Population</button>
+        <button id='popTotal' type='button' onclick='setSelectedLayer("popTotal")'>Total Population</button>
         <button id='pctAsian' type='button' onclick='setSelectedLayer("pctAsian")'>Percent Asian</button>
         <button id='pctBlack' type='button' onclick='setSelectedLayer("pctBlack")'>Percent Black</button>
         <button id='pctLatino' type='button' onclick='setSelectedLayer("pctLatino")'>Percent Latino</button>
@@ -81,6 +82,7 @@
     
     <script src='js/symbology.js'></script>
     <script src='js/chart.js'></script>
+    <script src='js/layers.js'></script>
     <script src='js/map.js'></script>
 </body>
 </html>
