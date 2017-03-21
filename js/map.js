@@ -30,12 +30,8 @@ function addLegendLabels(geo) {
     }
     // add divergence labels
     for (var x = 0; x < 5; x++) {
-        var val = lyr.legendLabels[geo][x] - quantNum[2];
-        if (i != 2) {
-            document.getElementById(diverge[x]).innerHTML = val;
-        } else {
-            document.getElementById(diverge[x]).innerHTML = 'avg';
-        }
+        var val = (lyr.legendLabels[geo][x] - quantNum[2]).toFixed(1);
+        document.getElementById(diverge[x]).innerHTML = val;
     }    
 }
 
@@ -57,7 +53,6 @@ function fillLegend(lyr) {
         lyr['legendRamp'].h, ",",
         lyr['legendRamp'].i, ")"
     );
-    console.log(concatCSS);
     document.getElementById('leg-gradient').style.background = concatCSS;
     
     if (map.getZoom() > zoomThreshold) {
@@ -72,7 +67,6 @@ function fillLegend(lyr) {
 // Colors and displays the selected layer
 function setSelectedLayer(lyrId) {
     selectedLayer = lyrId;
-    console.log(selectedLayer);
     
     //get layer style options
     var lyr = Layers[selectedLayer];
@@ -149,7 +143,7 @@ map.on('load', function() {
 
         var popup = new mapboxgl.Popup()
             .setLngLat(map.unproject(e.point))
-            .setHTML('<h3>' + feature.properties.NAMELSAD + ':</h3><br /><p>' + feature.properties[lyr.valueName] + '</p>')
+            .setHTML('<h3 style="text-align: center">' + feature.properties.NAMELSAD + '</h3><h2 style="text-align: center">' + feature.properties[lyr.valueName] + '</h2>')
             .addTo(map);
     });
     
@@ -237,7 +231,7 @@ map.on('load', function() {
                     drawScatterplot(renWhitePovHistData);
                     drawPieChart(renRacePieChartData);
                 }
-                // socioecon charts
+                // socio-econ charts
                 if (lyr.category == 'se') {
                     document.getElementById('demographic-charts').style.display = "none";
                     document.getElementById('socioecon-charts').style.display = "block";
