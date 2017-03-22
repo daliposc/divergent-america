@@ -13,7 +13,7 @@ var Layers = {
     },
     
     'pctDegree': {
-        'name': 'Percent w/ Adv. Degrees',
+        'name': '% of Population w/ College Degrees',
         'colorRamp': CrimsonToIndigo["fill-color"],
         'propertyName': 'pctDeSTDV',
         'valueName': 'pctDegree',
@@ -26,7 +26,7 @@ var Layers = {
     },
     
     'pctPoverty': {
-        'name': 'Percent in Poverty',
+        'name': '% in Poverty',
         'colorRamp': IndigoToOrange["fill-color"],
         'propertyName': 'pctPovSTDV',
         'valueName': 'pctPoverty',
@@ -39,7 +39,7 @@ var Layers = {
     },
     
     'pctUninsur': {
-        'name': 'Percent Uninsured',
+        'name': '% without Health Insurance',
         'colorRamp': IndigoToOrange["fill-color"],
         'propertyName': 'pctUniSTDV',
         'valueName': 'pctUninsur',
@@ -52,7 +52,7 @@ var Layers = {
     },
     
      'pctWhite': {
-        'name': 'Percent White',
+        'name': '% White',
         'colorRamp': GreyToSalmon["fill-color"],
         'propertyName': 'pctWhSTDV',
         'valueName': 'pctWhite',
@@ -65,7 +65,7 @@ var Layers = {
     },
     
     'pctBlack': {
-        'name': 'Percent Black',
+        'name': '% Black',
         'colorRamp': GreyToSienna["fill-color"],
         'propertyName': 'pctBlSTDV',
         'valueName': 'pctBlack',
@@ -78,7 +78,7 @@ var Layers = {
     },
     
     'pctAsian': {
-        'name': 'Percent Asian',
+        'name': '% Asian',
         'colorRamp': GreyToGoldenrod["fill-color"],
         'propertyName': 'pctAsiSTDV',
         'valueName': 'pctAsian',
@@ -91,7 +91,7 @@ var Layers = {
     },
 
     'pctLatino': {
-        'name': 'Percent Latino',
+        'name': '% Latino',
         'colorRamp': GreyToCoral["fill-color"],
         'propertyName': 'pctLatSTDV',
         'valueName': 'pctLatino',
@@ -104,7 +104,7 @@ var Layers = {
     },
     
     'popTotal': {
-        'name': 'popTotal',
+        'name': 'Total Population',
         'colorRamp': BlackToGold["fill-color"],
         'propertyName': 'popTotSTDV',
         'valueName': 'popTotal',

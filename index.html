@@ -11,7 +11,7 @@
     <!-- Google Charts -->
     <script type='text/javascript' src='https://www.gstatic.com/charts/loader.js'></script>
     <!-- Chroma.js -->
-    <script src='js/chroma.min.js'></script>
+    <script src='js/lib/chroma.min.js'></script>
     <!-- Fonts & Styling -->
     <link href='https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab:700' rel='stylesheet'>
     <link href='css/style.css' rel='stylesheet' />
@@ -23,33 +23,38 @@
     </div>
 
     <div class='sidebar'>
-        <h3 style='text-align: center'>Socio-Economic Data</h3>
-        <button id='meanIncome' type='button' onclick='setSelectedLayer("meanIncome")'>Mean Income</button>
-        <button id='pctDegree' type='button' onclick='setSelectedLayer("pctDegree")'>Percent w/ Adv. Degree</button>
-        <button id='pctUninsur' type='button' onclick='setSelectedLayer("pctUninsur")'>Percent Uninsured</button>
-        <button id='pctPoverty' type='button' onclick='setSelectedLayer("pctPoverty")'>Percent Impoverished</button>
-        
-        <h3 style='text-align: center'>Demographic Data</h3>
-        <button id='popTotal' type='button' onclick='setSelectedLayer("popTotal")'>Total Population</button>
-        <button id='pctAsian' type='button' onclick='setSelectedLayer("pctAsian")'>Percent Asian</button>
-        <button id='pctBlack' type='button' onclick='setSelectedLayer("pctBlack")'>Percent Black</button>
-        <button id='pctLatino' type='button' onclick='setSelectedLayer("pctLatino")'>Percent Latino</button>
-        <button id='pctWhite' type='button' onclick='setSelectedLayer("pctWhite")'>Percent White</button>
-        
+        <div class='lyr-select'>
+            <h3 style='text-align: center'>Socio-Economic Data</h3>
+            <div class='btn-container'>
+                <button id='meanIncome' class="firstBtn" type='button' onclick='setLayer("meanIncome")'>Average Household Income</button>
+                <button id='pctDegree' type='button' onclick='setLayer("pctDegree")'>% with College Degrees</button>
+                <button id='pctUninsur' type='button' onclick='setLayer("pctUninsur")'>% without Health Insurance</button>
+                <button id='pctPoverty' class="lastBtn" type='button' onclick='setLayer("pctPoverty")'>% Impoverished</button>
+            </div>
+            
+            <h3 style='text-align: center'>Demographic Data</h3>
+            <div class='btn-container'>
+                <button id='popTotal' class="firstBtn" type='button' onclick='setLayer("popTotal")'>Total Population</button>
+                <button id='pctAsian' type='button' onclick='setLayer("pctAsian")'>% Asian</button>
+                <button id='pctBlack' type='button' onclick='setLayer("pctBlack")'>% Black</button>
+                <button id='pctLatino' type='button' onclick='setLayer("pctLatino")'>% Latino</button>
+                <button id='pctWhite' class="lastBtn" type='button' onclick='setLayer("pctWhite")'>% White</button>
+            </div>
+        </div>
+
         <hr align='center' width='70%'>
         
         <div class='chart-container'>
             <div id='demographic-charts'>
-                <h3>Live Stats from Map View</h3>
+                <h3>Live Stats within View Extent</h3>
                 <p>There are <b><span class="popstat"></span></b> people in your view.</p>
-                
-                <div id='scatterplot' class='chart'></div>
                 <div id='piechart' class='chart'></div>
+                <div id='scatterplot' class='chart'></div>
             </div>
+            
             <div id='socioecon-charts'>
-                <h3>Live Stats from Map View</h3>
+                <h3>Live Stats within View Extent</h3>
                 <p>There are <b><span class="popstat"></span></b> poeple in your view.</p>
-                
                 <div id='scatterplot3' class='chart'></div>
                 <div id='scatterplot2' class='chart'></div>
             </div>
@@ -80,6 +85,8 @@
             <span id='pos2'></span>
         </div>
     </div>
+    
+    <div id="tooltip"></div>
     
     <script src='js/symbology.js'></script>
     <script src='js/chart.js'></script>

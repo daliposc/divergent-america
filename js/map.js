@@ -14,7 +14,7 @@ var map = new mapboxgl.Map({
     center: [-98, 38],
     minZoom: 3,
     maxZoom: 10,
-}).addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+});
 
 //add fancy labels to legend
 function addLegendLabels(geo) {
@@ -43,15 +43,15 @@ function fillLegend(lyr) {
     // draw legend gradient
     var cssBkgrnd =  "linear-gradient(to right,";
     var concatCSS = cssBkgrnd.concat(
-        lyr['legendRamp'].a, ",",
+        //lyr['legendRamp'].a, ",",
         lyr['legendRamp'].b, ",",
         lyr['legendRamp'].c, ",",
         lyr['legendRamp'].d, ",",
         lyr['legendRamp'].e, ",",
         lyr['legendRamp'].f, ",",
         lyr['legendRamp'].g, ",",
-        lyr['legendRamp'].h, ",",
-        lyr['legendRamp'].i, ")"
+        lyr['legendRamp'].h, ")"
+        //lyr['legendRamp'].i, ")"
     );
     document.getElementById('leg-gradient').style.background = concatCSS;
     
@@ -65,7 +65,7 @@ function fillLegend(lyr) {
 }
 
 // Colors and displays the selected layer
-function setSelectedLayer(lyrId) {
+function setLayer(lyrId) {
     selectedLayer = lyrId;
     
     //get layer style options
@@ -80,6 +80,23 @@ function setSelectedLayer(lyrId) {
     var fillColor = lyr['colorRamp'];
     map.setPaintProperty('states-layer', 'fill-color', fillColor);
     map.setPaintProperty('counties-layer', 'fill-color', fillColor);
+    
+    // button styling, keep halo if selected
+    var buttons = document.getElementsByTagName('button');
+    for (var i = 0; i < buttons.length; i++) {
+        if (buttons[i].id == lyrId) {
+            document.getElementById(lyrId).className += " activeLyrBtn";
+        }
+        else if (buttons[i].className == "firstBtn activeLyrBtn" || buttons[i].className == "firstBtn"){
+            buttons[i].className = "firstBtn";
+        }
+        else if (buttons[i].className == "lastBtn activeLyrBtn" || buttons[i].className == "lastBtn") {
+            buttons[i].className = "lastBtn";
+        }
+        else {
+            buttons[i].className = "";
+        }
+    }
 
     // fill legend contents
     fillLegend(lyr);
@@ -88,21 +105,13 @@ function setSelectedLayer(lyrId) {
 
 //Mapload Function time fam bam
 map.on('load', function() {    
-    // get vector tileset sources
-    map.addSource('states', {
-        'type': 'vector',
-        'url': 'mapbox://geog371final.5tkn5wya'
-    });
-    
-    map.addSource('counties', {
-        'type': 'vector',
-        'url': 'mapbox://geog371final.0vyzgmm0'
-    });
-    
     // add state layer to map
     map.addLayer({
         'id': 'states-layer',
-        'source': 'states',
+        'source': {
+            'type': 'vector',
+            'url': 'mapbox://geog371final.5tkn5wya'
+        },
         'source-layer': 'statesDataF-6rqrzf',
         'maxzoom': zoomThreshold,
         'type': 'fill',
@@ -112,8 +121,11 @@ map.on('load', function() {
     // add counties layer to map
     map.addLayer({
         'id': 'counties-layer',
-        'source': 'counties',
-        'source-layer': 'countiesF-55xz2i',
+        'source': {
+            'type': 'vector',
+            'url': 'mapbox://geog371final.7m4n0hyq'
+        },
+        'source-layer': 'countiesL-c6bnw9',
         'minzoom': zoomThreshold,
         'type': 'fill',
         'paint': {'fill-opacity': 0.1}
@@ -143,12 +155,24 @@ map.on('load', function() {
 
         var popup = new mapboxgl.Popup()
             .setLngLat(map.unproject(e.point))
-            .setHTML('<h3 style="text-align: center">' + feature.properties.NAMELSAD + '</h3><h2 style="text-align: center">' + feature.properties[lyr.valueName] + '</h2>')
+            .setHTML('<h3 style="text-align: center">' + feature.properties.NAME10 + '</h3><h2 style="text-align: center">' + feature.properties[lyr.valueName] + '</h2>')
             .addTo(map);
     });
     
     map.on('mousemove', function (e) {
         var features = map.queryRenderedFeatures(e.point, { layers: ['states-layer', 'counties-layer'] });
+ 
+        
+/*      //tooltop to move with mouse position  
+        if (features[0]) {
+            var y = e.point.y + 50;
+            var x = e.point.x + 300;
+
+            document.getElementById("tooltip").style.top = y + "px";
+            document.getElementById("tooltip").style.left = x + "px";
+            document.getElementById("tooltip").innerHTML = features[0].properties.NAME10
+        }*/
+        
         // change mouse pointer
         map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
     });
@@ -228,14 +252,14 @@ map.on('load', function() {
                 if (lyr.category == 'dem') {
                     document.getElementById('socioecon-charts').style.display = "none";
                     document.getElementById('demographic-charts').style.display = "block";
-                    drawScatterplot(renWhitePovHistData);
+                    //drawScatterplot(renWhitePovHistData);
                     drawPieChart(renRacePieChartData);
                 }
                 // socio-econ charts
                 if (lyr.category == 'se') {
                     document.getElementById('demographic-charts').style.display = "none";
                     document.getElementById('socioecon-charts').style.display = "block";
-                    drawScatterplot2(renIncomeUninsuredData);
+                    //drawScatterplot2(renIncomeUninsuredData);
                     drawScatterplot3(renIncomeDegreeData);
                 }
             }            
