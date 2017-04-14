@@ -14,6 +14,11 @@ var map = new mapboxgl.Map({
     center: [-98, 38],
     minZoom: 3,
     maxZoom: 10,
+    maxBounds: [
+        [-191.25, 0],
+        [-37.265, 73.77]
+    ]
+});
 });
 
 //add fancy labels to legend
