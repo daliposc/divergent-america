@@ -19,7 +19,6 @@ var map = new mapboxgl.Map({
         [-37.265, 73.77]
     ]
 });
-});
 
 //add fancy labels to legend
 function addLegendLabels(geo) {
