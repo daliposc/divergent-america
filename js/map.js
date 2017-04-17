@@ -9,7 +9,7 @@ var diverge = ['neg2','neg1','avg','pos1','pos2'];
 // initialize map object
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/geog371final/cj1hkf0tz00112spcghp6r0cg?optimize=true',
+    style: 'mapbox://styles/geog371final/cj1hkf0tz00112spcghp6r0cg',
     zoom: 3.5,
     center: [-98, 38],
     minZoom: 3,
