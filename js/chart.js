@@ -31,9 +31,9 @@ function drawPieChart(dataArr) {
       title: 'Race Compositon',
 
         slices: {
-            0: { color: '#ffcd94' },
-            1: { color: '#724E1E' },
-            2: { color: '#A1853B' },
+            0: { color: '#d55e00' },
+            1: { color: '#0072b2' },
+            2: { color: '#f0e442' },
             3: { color: '#B87B44' },
         }
     };
