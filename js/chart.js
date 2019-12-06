@@ -34,7 +34,7 @@ function drawPieChart(dataArr) {
             0: { color: '#d55e00' },
             1: { color: '#0072b2' },
             2: { color: '#f0e442' },
-            3: { color: '#B87B44' },
+            3: { color: '#009e73' },
         }
     };
 
