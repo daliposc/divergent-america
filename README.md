@@ -3,4 +3,4 @@ A web map to visualize disparity and divide in the United States. Final project 
 
 Live site here: https://daliposc.github.io/divergent-america/
 
-![Screenshot](https://raw.githubusercontent.com/daliposc/divergent-america-webmap/master/assets/screen.PNG)
+![Screenshot](https://raw.githubusercontent.com/daliposc/divergent-america-webmap/master/assets/screenshot.png)
