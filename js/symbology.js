@@ -14,34 +14,34 @@ function adjustRamp(colorRamp) {
     return newRamp;
 }
 
-// Dark Red - Light Yellow - Teal (Red to Teal)
-var RtL = adjustRamp(chroma.bezier(['darkred','deeppink','lightyellow']).scale().colors(5));
-var LtT = adjustRamp(chroma.bezier(['lightyellow', 'lightgreen', 'teal']).scale().colors(5));
+// Teal - Light Yellow - Dark Red (Inverted Red to Teal)
+var RtL = adjustRamp(chroma.bezier(['teal','lightgreen','lightyellow']).scale().colors(5));
+var LtT = adjustRamp(chroma.bezier(['lightyellow', 'deeppink', 'darkred']).scale().colors(5));
 
-// Dark Red - BlanchedAlmond - Indigo (Crimson to Indigo)
-var CtL = adjustRamp(chroma.bezier(['darkred','deeppink','lightyellow']).scale().colors(5));
-var LtI = adjustRamp(chroma.bezier(['lightyellow','blueviolet','indigo']).scale().colors(5));
+// Indigo - BlanchedAlmond - Dark Red (Inverted Crimson to Indigo)
+var CtL = adjustRamp(chroma.bezier(['indigo','blueviolet','lightyellow']).scale().colors(5));
+var LtI = adjustRamp(chroma.bezier(['lightyellow','deeppink','darkred']).scale().colors(5));
 
-//Indigo - Light Yellow - OrangeRed (Indigo to Orange)
-var ItL = adjustRamp(chroma.bezier(['indigo','violet','lightyellow']).scale().colors(5));
-var LtO = adjustRamp(chroma.bezier(['lightyellow','darkorange','orangered']).scale().colors(5));
+//OrangeRed - Light Yellow - Indigo (Inverted Indigo to Orange)
+var ItL = adjustRamp(chroma.bezier(['orangered','darkorange','lightyellow']).scale().colors(5));
+var LtO = adjustRamp(chroma.bezier(['lightyellow','violet','indigo']).scale().colors(5));
 
-//DarkGrey - Light Yellow - DarkSalmon (Grey to Salmon)
-var GtL = adjustRamp(chroma.bezier(['darkslategrey','lightslategrey','aliceblue']).scale().colors(5));
-var LtS = adjustRamp(chroma.bezier(['lightyellow', 'darkorange', 'darksalmon']).scale().colors(5));
+//DarkSalmon - Light Yellow - DarkGrey (Inverted Grey to Salmon)
+var GtL = adjustRamp(chroma.bezier(['darksalmon','darkorange','lightyellow']).scale().colors(5));
+var LtS = adjustRamp(chroma.bezier(['aliceblue', 'lightslategrey', 'darkslategrey']).scale().colors(5));
 
-//DarkGrey - Light Yellow - Sienna (Grey to Sienna - LtSi)
-var LtSi = adjustRamp(chroma.bezier(['lightyellow','darksalmon','sienna']).scale().colors(5));
+//Sienna - Light Yellow - DarkGrey (Inverted Grey to Sienna - LtSi)
+var LtSi = adjustRamp(chroma.bezier(['sienna','darksalmon','lightyellow']).scale().colors(5));
 
-//DarkGrey - Light Yellow - Dark Goldenrod (Grey to Goldenrod)
-var LtG = adjustRamp(chroma.bezier(['lightyellow','goldenrod','darkgoldenrod']).scale().colors(5));
+//Dark Goldenrod - Light Yellow - DarkGrey (Inverted Grey to Goldenrod)
+var LtG = adjustRamp(chroma.bezier(['darkgoldenrod','goldenrod','lightyellow']).scale().colors(5));
 
-//DarkGrey - Light Yellow - Coral (Grey to Coral)
-var LtC = adjustRamp(chroma.bezier(['lightyellow','lightcoral','coral']).scale().colors(5));
+//Coral - Light Yellow - DarkGrey (Inverted Grey to Coral)
+var LtC = adjustRamp(chroma.bezier(['coral','lightcoral','lightyellow']).scale().colors(5));
 
-//Black - Whitesmoke - Gold (Black to Gold)
-var BtW = adjustRamp(chroma.bezier(['black','slategrey', 'lightgrey']).scale().colors(5));
-var WtG = adjustRamp(chroma.bezier(['whitesmoke','gold']).scale().colors(5));
+//Gold - Whitesmoke - Black (Inverted Black to Gold)
+var BtW = adjustRamp(chroma.bezier(['gold','whitesmoke']).scale().colors(5));
+var WtG = adjustRamp(chroma.bezier(['lightgrey', 'slategrey', 'black']).scale().colors(5));
 
 // Define Color Ramp Symbologies
 var RedToTeal = {
@@ -49,15 +49,15 @@ var RedToTeal = {
         'property': '',
         'type': 'exponential',
         'stops': [
-            [-4, RtL[0]],
-            [-3, RtL[1]],
-            [-2, RtL[2]],
-            [-1, RtL[3]],
+            [-4, LtT[4]],
+            [-3, LtT[3]],
+            [-2, LtT[2]],
+            [-1, LtT[1]],
             [0,  'lightyellow'],
-            [1, LtT[1]],
-            [2, LtT[2]],
-            [3, LtT[3]],
-            [4, LtT[4]]
+            [1, RtL[3]],
+            [2, RtL[2]],
+            [3, RtL[1]],
+            [4, RtL[0]]
         ]
     }
 };
@@ -67,15 +67,15 @@ var CrimsonToIndigo = {
         'property': '',
         'type': 'exponential',
         'stops': [
-            [-4, CtL[0]],
-            [-3, CtL[1]],
-            [-2, CtL[2]],
-            [-1, CtL[3]],
+            [-4, LtI[4]],
+            [-3, LtI[3]],
+            [-2, LtI[2]],
+            [-1, LtI[1]],
             [0,  'lightyellow'],
-            [1, LtI[1]],
-            [2, LtI[2]],
-            [3, LtI[3]],
-            [4, LtI[4]]
+            [1, CtL[3]],
+            [2, CtL[2]],
+            [3, CtL[1]],
+            [4, CtL[0]]
         ]
     }
 };
@@ -84,15 +84,15 @@ var IndigoToOrange = {
         'property':'',
         'type':'exponential',
         'stops': [
-            [-4, ItL[0]],
-            [-3, ItL[1]],
-            [-2, ItL[2]],
-            [-1, ItL[3]],
+            [-4, LtO[4]],
+            [-3, LtO[3]],
+            [-2, LtO[2]],
+            [-1, LtO[1]],
             [0, 'lightyellow'],
-            [1, LtO[1]],
-            [2, LtO[2]],
-            [3, LtO[3]],
-            [4, LtO[4]]
+            [1, ItL[3]],
+            [2, ItL[2]],
+            [3, ItL[1]],
+            [4, ItL[0]]
         ]
     }
 };
@@ -101,15 +101,15 @@ var GreyToSalmon = {
         'property':'',
         'type':'exponential',
         'stops': [
-            [-4, GtL[0]],
-            [-3, GtL[1]],
-            [-2, GtL[2]],
-            [-1, GtL[3]],
+            [-4, LtS[4]],
+            [-3, LtS[3]],
+            [-2, LtS[2]],
+            [-1, LtS[1]],
             [0, 'lightyellow'],
-            [.75, LtS[1]],
-            [1.75, LtS[2]],
-            [2.75, LtS[3]],
-            [3.75, LtS[4]]
+            [.75, GtL[3]],
+            [1.75, GtL[2]],
+            [2.75, GtL[1]],
+            [3.75, GtL[0]]
         ]
     }
 };
@@ -118,15 +118,15 @@ var GreyToSienna = {
         'property':'',
         'type':'exponential',
         'stops': [
-            [-4, GtL[0]],
-            [-3, GtL[1]],
-            [-2, GtL[2]],
-            [-1, GtL[3]],
+            [-4, LtSi[4]],
+            [-3, LtSi[3]],
+            [-2, LtSi[2]],
+            [-1, LtSi[1]],
             [0, 'lightyellow'],
-            [1, LtSi[1]],
-            [2, LtSi[2]],
-            [3, LtSi[3]],
-            [4, LtSi[4]]
+            [1, GtL[3]],
+            [2, GtL[2]],
+            [3, GtL[1]],
+            [4, GtL[0]]
         ]
     }
 };
@@ -135,15 +135,15 @@ var GreyToGoldenrod = {
         'property':'',
         'type':'exponential',
         'stops': [
-            [-4, GtL[0]],
-            [-3, GtL[1]],
-            [-2, GtL[2]],
-            [-1, GtL[3]],
+            [-4, LtG[4]],
+            [-3, LtG[3]],
+            [-2, LtG[2]],
+            [-1, LtG[1]],
             [0, 'lightyellow'],
-            [1, LtG[1]],
-            [2, LtG[2]],
-            [3, LtG[3]],
-            [4, LtG[4]]
+            [1, GtL[3]],
+            [2, GtL[2]],
+            [3, GtL[1]],
+            [4, GtL[0]]
         ]
     }
 };
@@ -152,15 +152,15 @@ var GreyToCoral = {
         'property':'',
         'type':'exponential',
         'stops': [
-            [-4, GtL[0]],
-            [-3, GtL[1]],
-            [-2, GtL[2]],
-            [-1, GtL[3]],
+            [-4, LtC[4]],
+            [-3, LtC[3]],
+            [-2, LtC[2]],
+            [-1, LtC[1]],
             [0, 'lightyellow'],
-            [1, LtC[1]],
-            [2, LtC[2]],
-            [3, LtC[3]],
-            [4, LtC[4]]
+            [1, GtL[3]],
+            [2, GtL[2]],
+            [3, GtL[1]],
+            [4, GtL[0]]
         ]
     }
 };
@@ -169,15 +169,15 @@ var BlackToGold = {
         'property':'',
         'type':'exponential',
         'stops': [
-            [-4, BtW[0]],
-            [-3, BtW[1]],
-            [-2, BtW[2]],
-            [-1, BtW[3]],
+            [-4, WtG[4]],
+            [-3, WtG[3]],
+            [-2, WtG[2]],
+            [-1, WtG[1]],
             [0, 'whitesmoke'],
-            [1, WtG[1]],
-            [2, WtG[2]],
-            [3, WtG[3]],
-            [4, WtG[4]]
+            [1, BtW[3]],
+            [2, BtW[2]],
+            [3, BtW[1]],
+            [4, BtW[0]]
         ]
     }
 };
